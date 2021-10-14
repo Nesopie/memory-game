@@ -70,20 +70,23 @@ const App = () => {
         const cardOnClick = (e) => {
             const cardID = e.target.id;
             for(let i = 0; i < catArray.length; i++) {
+                //iterate through the array and find the object which has the same index as the card which is clicked
                 if(catArray[i].id === cardID) {
-                    if(!catArray[i].clicked){
+                    let newArray = shuffle(catArray);
+                    setCatArray(newArray);
+                    if(!catArray[i].clicked) {
                         catArray[i].clicked = true;
-                        let newArray = shuffle(catArray);
-                        setCatArray(newArray);
-                        setCurrentScore(currentScore + 1);
                         const greater = bestScore < currentScore ? currentScore : bestScore;
+                        setCurrentScore(currentScore + 1);
                         setBestScore(greater);
                     }else {
-                        let newArray = shuffle(catArray);
-                        setCatArray(newArray);
-                        setCurrentScore(0);
+                        setCurrentScore(0); //lose, set score to 0
                         const greater = bestScore < currentScore ? currentScore : bestScore;
-                        setBestScore(greater);
+                        setBestScore(greater); //update best score
+                        for(i = 0; i < catArray.length; i++)  //make all the clicked cards to be false as game is restarted
+                            catArray[i].clicked = false;
+
+                        break;
                     }
                 }
             }
