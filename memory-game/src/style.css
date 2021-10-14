@@ -2,3 +2,20 @@ header {
     display: flex;
     justify-content: space-between;
 }
+
+.catCards {
+    display: grid;
+    grid-template-columns: repeat(4,300px);
+    justify-content: space-between;
+}
+
+img {
+    width: 300px;
+    height: 400px;
+}
+
+.catCard {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
