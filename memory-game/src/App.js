@@ -85,11 +85,12 @@ const App = () => {
                         setBestScore(greater); //update best score
                         for(i = 0; i < catArray.length; i++)  //make all the clicked cards to be false as game is restarted
                             catArray[i].clicked = false;
-                        break;
                     }
+                    break;
                 }
             }
         }
+
         function shuffle(array) {
             let currentIndex = array.length;
             let randomIndex;
@@ -103,15 +104,17 @@ const App = () => {
 
             return array;
         }
+
         let cards = document.querySelector(".catCard");
         cards.addEventListener("click", cardOnClick);
-    }, [catArray,bestScore,currentScore])
+    }, [catArray,bestScore,currentScore]);
+
     return (
         <div>
             <Header currentScore={currentScore} bestScore={bestScore}/>
             <CatCards catArray={catArray}/>
         </div>
-    )
+    );
 }
 
 const Header = (props) => {
