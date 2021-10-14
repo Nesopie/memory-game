@@ -76,16 +76,15 @@ const App = () => {
                     setCatArray(newArray);
                     if(!catArray[i].clicked) {
                         catArray[i].clicked = true;
-                        const greater = bestScore < currentScore ? currentScore : bestScore;
                         setCurrentScore(currentScore + 1);
+                        const greater = bestScore < currentScore ? currentScore : bestScore;
                         setBestScore(greater);
                     }else {
-                        setCurrentScore(0); //lose, set score to 0
                         const greater = bestScore < currentScore ? currentScore : bestScore;
+                        setCurrentScore(0); //lose, set score to 0
                         setBestScore(greater); //update best score
                         for(i = 0; i < catArray.length; i++)  //make all the clicked cards to be false as game is restarted
                             catArray[i].clicked = false;
-
                         break;
                     }
                 }
@@ -106,7 +105,7 @@ const App = () => {
         }
         let cards = document.querySelector(".catCard");
         cards.addEventListener("click", cardOnClick);
-    })
+    }, [catArray,bestScore,currentScore])
     return (
         <div>
             <Header currentScore={currentScore} bestScore={bestScore}/>
