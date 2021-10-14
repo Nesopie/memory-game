@@ -66,53 +66,58 @@ const App = () => {
 
     const [catArray, setCatArray] = useState(images);
 
-    useEffect(() => {
-        const cardOnClick = (e) => {
-            const cardID = e.target.id;
-            for(let i = 0; i < catArray.length; i++) {
-                //iterate through the array and find the object which has the same index as the card which is clicked
-                if(catArray[i].id === cardID) {
-                    let newArray = shuffle(catArray);
-                    setCatArray(newArray);
-                    if(!catArray[i].clicked) {
-                        catArray[i].clicked = true;
-                        setCurrentScore(currentScore + 1);
-                        const greater = bestScore < currentScore ? currentScore : bestScore;
-                        setBestScore(greater);
-                    }else {
-                        const greater = bestScore < currentScore ? currentScore : bestScore;
-                        setCurrentScore(0); //lose, set score to 0
-                        setBestScore(greater); //update best score
-                        for(i = 0; i < catArray.length; i++)  //make all the clicked cards to be false as game is restarted
-                            catArray[i].clicked = false;
-                    }
-                    break;
+    // useEffect(() => {
+    const cardOnClick = (e) => {
+        console.log(catArray);
+        const cardID = e.target.id;
+        for(let i = 0; i < catArray.length; i++) {
+            //iterate through the array and find the object which has the same index as the card which is clicked
+            if(catArray[i].id === cardID) {
+                if(!catArray[i].clicked) {
+                    catArray[i].clicked = true;
+                    const greater = bestScore < currentScore + 1 ? currentScore + 1: bestScore;
+                    setBestScore(greater);
+                    setCurrentScore(currentScore + 1);
+                }else {
+                    const greater = bestScore < currentScore ? currentScore : bestScore;
+                    setCurrentScore(0); //lose, set score to 0
+                    setBestScore(greater); //update best score
+                    for(i = 0; i < catArray.length; i++)  //make all the clicked cards to be false as game is restarted
+                        catArray[i].clicked = false;
                 }
+                let newArray = shuffle(catArray);
+                setCatArray(newArray);
+                break;
             }
         }
+    }
 
-        function shuffle(array) {
-            let currentIndex = array.length;
-            let randomIndex;
+    function shuffle(array) {
+        let currentIndex = array.length;
+        let randomIndex;
 
-            while (currentIndex !== 0) {
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex--;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
 
-                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-            }
-
-            return array;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
         }
 
-        let cards = document.querySelector(".catCard");
-        cards.addEventListener("click", cardOnClick);
-    }, [catArray,bestScore,currentScore]);
+        return array;
+    }
+
+    // let cards = document.querySelector(".catCard");
+    // console.log(cards);
+    // cards.forEach((card) => {
+    //     card.addEventListener("click",cardOnClick);
+    // })
+
+    // }, [catArray,bestScore,currentScore]);
 
     return (
         <div>
             <Header currentScore={currentScore} bestScore={bestScore}/>
-            <CatCards catArray={catArray}/>
+            <CatCards catArray={catArray} cardOnClick={cardOnClick}/>
         </div>
     );
 }
@@ -143,7 +148,7 @@ const CatCards = (props) => {
     return (
         <div className="catCards">
             {catArray.map((catItem) => {
-                return <CatCard catItem={catItem} key={catItem.id}/>
+                return <CatCard catItem={catItem} key={catItem.id} cardOnClick={props.cardOnClick}/>
             })}
         </div>
     )
@@ -152,8 +157,8 @@ const CatCards = (props) => {
 const CatCard = (props) => {
     const { catItem } = props;
     return (
-        <div key={catItem.id} className="catCard" id={catItem.id}>
-            <img src={catItem.src}></img>
+        <div key={catItem.id} className="catCard">
+            <img src={catItem.src} id={catItem.id} onClick={props.cardOnClick}></img>
             <div className="cardText">{catItem.catName}</div>
         </div>
     )

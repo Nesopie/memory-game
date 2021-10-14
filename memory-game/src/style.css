@@ -12,10 +12,12 @@ header {
 img {
     width: 300px;
     height: 400px;
+    z-index: -1;
 }
 
 .catCard {
     display: flex;
     flex-direction: column;
     text-align: center;
+    z-index: 100;
 }
